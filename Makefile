@@ -1,16 +1,13 @@
 CC = g++
 CFLAGS = -Wall -Werror -g
 
-all: fifo sfj rr
+all: firstfit beestfit
 
-fifo: fifo.o
+firstfit: main.cpp
 	$(CC) $(CFLAGS) $? -o $@
 
-sfj: sfj.cpp
-	$(CC) $(CFLAGS) $? -o $@
-
-rr: rr.cpp
+bestfit: main.cpp
 	$(CC) $(CFLAGS) $? -o $@
 
 clean: 
-	rm -f *.o fifo sfj rr *.o
+	rm -f *.o firstfit bestfit *.o
