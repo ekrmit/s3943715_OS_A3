@@ -1,9 +1,9 @@
 # s3943715_OS_A3
 
 To run the program
-- First move terminal to project folder
+- First move terminal to project folder.
 - In the terminal run:
-```make```
+```make```.
 - Then to run the programs:
 ```./firstfit <Data File Name>``` or
-```./bestfit <Data File Name>```
+```./bestfit <Data File Name>```.
