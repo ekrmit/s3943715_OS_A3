@@ -8,7 +8,6 @@
 struct AllocationNode{
     std::size_t size;
     void *space;
-    std::shared_ptr<AllocationNode> next;
 };
 
 class linked_list {

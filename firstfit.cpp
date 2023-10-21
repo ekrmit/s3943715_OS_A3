@@ -3,8 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <unistd.h>
+#include <list>
 
-#include "linkedlist.h"
+#include "AllocationNode.h"
 
 int valid_partition_sizes[] = {32, 64, 128, 256, 512};
 //
@@ -20,8 +21,8 @@ void dealloc(void * chunk){
 }
 
 int main(int argc, char *argv[]){
-
-    linked_list allocations;
+    std::list<AllocationNode> occupied_chunks;
+    std::list<AllocationNode> free_chunks;
 
     //exit if there is not 2 args (call & datafile)
     if(argc != 2){
@@ -60,7 +61,7 @@ int main(int argc, char *argv[]){
 
             //Call Allocation function
             //COMLETE!!!!!!!!
-            allocations.append(allocation_size_int, nullptr);
+            
 
         }
 
@@ -68,7 +69,7 @@ int main(int argc, char *argv[]){
         else if(command == "dealloc"){
             //DEBUG: print info REMOVE LATER
             std::cout << "Dealloc Called" << std::endl;
-            allocations.remove_last();
+            occupied_chunks.pop_back();
             //Call Deallocation function
             //COMLETE!!!!!!!!
         }
@@ -83,7 +84,6 @@ int main(int argc, char *argv[]){
     datafile.close();
 
     //PRINT EXIT DATA HERE
-    allocations.print_list();
 
     return EXIT_SUCCESS;
 }
