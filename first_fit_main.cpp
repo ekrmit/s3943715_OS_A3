@@ -2,27 +2,16 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <unistd.h>
-#include <list>
 
 #include "AllocationNode.h"
+#include "FirstFit.h"
 
-int valid_partition_sizes[] = {32, 64, 128, 256, 512};
 //
 // FIRST FIT!
 //
 
-void * alloc(std::size_t chunk_size){
-    return nullptr;
-}
-
-void dealloc(void * chunk){
-    
-}
-
 int main(int argc, char *argv[]){
-    std::list<AllocationNode> occupied_chunks;
-    std::list<AllocationNode> free_chunks;
+    FirstFit first_fit;
 
     //exit if there is not 2 args (call & datafile)
     if(argc != 2){
@@ -56,25 +45,20 @@ int main(int argc, char *argv[]){
             //convert allocation size to integer
             int allocation_size_int = stoi(allocation_size);
 
-            //DEBUG: print info REMOVE LATER
-            std::cout << "Alloc Called, Allocation size: " << allocation_size_int << std::endl;
-
             //Call Allocation function
-            //COMLETE!!!!!!!!
-            
-
+            first_fit.alloc(allocation_size_int);
         }
 
         //Deallocation Command
         else if(command == "dealloc"){
-            //DEBUG: print info REMOVE LATER
-            std::cout << "Dealloc Called" << std::endl;
-            occupied_chunks.pop_back();
-            //Call Deallocation function
-            //COMLETE!!!!!!!!
+            //Get chunk at back of allocated list (FILO).
+            void* to_remove = first_fit.get_last_allocated();
+
+            //Call Deallocation function.
+            first_fit.dealloc(to_remove);
         }
 
-        //Invalid Command
+        //DataFile Error Handling: Invalid Command.
         else{
             std::cout << "Invalid Command in datafile. Quitting!" << std::endl;
             return EXIT_FAILURE;
@@ -84,6 +68,8 @@ int main(int argc, char *argv[]){
     datafile.close();
 
     //PRINT EXIT DATA HERE
+    first_fit.print_allocated();
+    first_fit.print_free();
 
     return EXIT_SUCCESS;
 }

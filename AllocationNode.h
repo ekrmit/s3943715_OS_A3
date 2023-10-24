@@ -4,8 +4,20 @@
 #include <cstddef>
 
 struct AllocationNode{
-    std::size_t size;
+    //Allocated Block Size
+    std::size_t block_size;
+
+    //Used amount of allocated block size
+    std::size_t used_size;
+
+    //Memory address ptr
     void *space;
+
+    //For when list needs to find matching node 
+    // in method <list name>.remove()
+    bool operator==(const AllocationNode& rhs) const {
+        return (rhs.space == space);
+    }
 };
 
 #endif //ALLOCATION_NODE_H

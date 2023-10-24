@@ -1,12 +1,12 @@
 CC = g++
 CFLAGS = -Wall -Werror -g
 
-all: firstfit bestfit
+all: clean firstfit bestfit
 
-firstfit: firstfit.cpp linkedlist.o
+firstfit: first_fit_main.cpp AllocationNode.h FirstFit.o
 	$(CC) $(CFLAGS) $? -o $@
 
-bestfit: bestfit.cpp
+bestfit: best_fit_main.cpp AllocationNode.h BestFit.o
 	$(CC) $(CFLAGS) $? -o $@
 
 %.o: %.cpp

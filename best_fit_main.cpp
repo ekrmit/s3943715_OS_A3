@@ -3,22 +3,16 @@
 #include <iostream>
 #include <fstream>
 
-
+#include "AllocationNode.h"
+#include "BestFit.h"
 
 //
-// BEST FIT!
+// FIRST FIT!
 //
 
-void * alloc(std::size_t chunk_size){
-    return nullptr;
-}
+int main(int argc, char *argv[]){
+    BestFit best_fit;
 
-void dealloc(void * chunk){
-    
-}
-
-int main(int argc, char *argv[])
-{
     //exit if there is not 2 args (call & datafile)
     if(argc != 2){
         std::cout << "Error: Invalid number of arguments!" << std::endl;
@@ -34,6 +28,7 @@ int main(int argc, char *argv[])
     }
 
     //Read datafile, and perform given operations
+
     std::string line;
     while (getline (datafile, line)) {
         // Output the text from the file
@@ -50,23 +45,20 @@ int main(int argc, char *argv[])
             //convert allocation size to integer
             int allocation_size_int = stoi(allocation_size);
 
-            //DEBUG: print info REMOVE LATER
-            std::cout << "Alloc Called, Allocation size: " << allocation_size_int << std::endl;
-
             //Call Allocation function
-            //COMLETE!!!!!!!!
+            best_fit.alloc(allocation_size_int);
         }
 
         //Deallocation Command
         else if(command == "dealloc"){
-            //DEBUG: print info REMOVE LATER
-            std::cout << "Dealloc Called" << std::endl;
-            
-            //Call Deallocation function
-            //COMLETE!!!!!!!!
+            //Get chunk at back of allocated list (FILO).
+            void* to_remove = best_fit.get_last_allocated();
+
+            //Call Deallocation function.
+            best_fit.dealloc(to_remove);
         }
 
-        //Invalid Command
+        //DataFile Error Handling: Invalid Command.
         else{
             std::cout << "Invalid Command in datafile. Quitting!" << std::endl;
             return EXIT_FAILURE;
@@ -76,6 +68,8 @@ int main(int argc, char *argv[])
     datafile.close();
 
     //PRINT EXIT DATA HERE
+    best_fit.print_allocated();
+    best_fit.print_free();
 
     return EXIT_SUCCESS;
 }
