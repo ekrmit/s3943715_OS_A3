@@ -41,7 +41,7 @@ void* FirstFit::alloc(std::size_t chunk_size){
         return_ptr = alloc.space;
     }
 
-    return nullptr;
+    return return_ptr;
 };
 
 bool FirstFit::dealloc(void * chunk){
@@ -86,8 +86,34 @@ void* FirstFit::get_last_allocated(){
     return alloc.space;
 }
 
+int FirstFit::get_total_allocated(){
+    int total = 0;
+    for(AllocationNode alloc : occupied_chunks){
+        total += alloc.block_size;
+    }
+    return total;
+}
+
+int FirstFit::get_total_used(){
+    int total = 0;
+    for(AllocationNode alloc : occupied_chunks){
+        total += alloc.used_size;
+    }
+    return total;
+}
+
+int FirstFit::get_total_free(){
+    int total = 0;
+    for(AllocationNode alloc : free_chunks){
+        total += alloc.block_size;
+    }
+    return total;
+}
+
 void FirstFit::print_allocated(){
     std::cout << std::endl;
+
+    //Table Title and Headers
     std::cout << "\033[1;4;33m" << "Allocated Chunks List:" << "\033[0m" << std::endl;
     std::cout << std::setw(15) << "Address" 
               << std::setw(15) << "Total Size" 
@@ -96,23 +122,36 @@ void FirstFit::print_allocated(){
               << std::setw(15) << "---------------" 
               << std::setw(15) << "---------------" << std::endl;
 
+    //print each list item as a table row
     for(AllocationNode alloc : occupied_chunks){
         std::cout << std::setw(15) << alloc.space 
                   << std::setw(15) << alloc.block_size 
                   << std::setw(15) << alloc.used_size << std::endl;
     }
+
+    //PRINT TOTALS
+    std::cout << "        " << std::setw(15) << "\033[1;34mTOTALS:\033[0m"
+              << std::setw(15) << get_total_allocated()
+              << std::setw(15) << get_total_used() << std::endl;
 }
 
 void FirstFit::print_free(){
     std::cout << std::endl;
+
+    //Table Title and Headers
     std::cout << "\033[1;4;33m" << "Free Chunks List:" << "\033[0m" << std::endl;
     std::cout << std::setw(15) << "Address" 
               << std::setw(15) << "Total Size" << std::endl;
     std::cout << std::setw(15) << "---------------" 
               << std::setw(15) << "---------------" << std::endl;
 
-    for(AllocationNode alloc : occupied_chunks){
+    //print each list item as a table row
+    for(AllocationNode alloc : free_chunks){
         std::cout << std::setw(15) << alloc.space 
                   << std::setw(15) << alloc.block_size << std::endl;
     }
+
+    //PRINT TOTALS
+    std::cout << "         " << std::setw(15) << "\033[1;34mTOTAL:\033[0m"
+              << std::setw(15) << get_total_free() << std::endl;
 }

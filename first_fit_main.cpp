@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <chrono>
 
 #include "AllocationNode.h"
 #include "FirstFit.h"
@@ -27,8 +28,10 @@ int main(int argc, char *argv[]){
         return EXIT_FAILURE;
     }
 
-    //Read datafile, and perform given operations
+    //start timer
+    auto start = std::chrono::high_resolution_clock::now();
 
+    //Read datafile, and perform given operations
     std::string line;
     while (getline (datafile, line)) {
         // Output the text from the file
@@ -65,11 +68,21 @@ int main(int argc, char *argv[]){
         }
     }
 
+    //end timer
+    auto end = std::chrono::high_resolution_clock::now();
+
+    //close data file
     datafile.close();
 
     //PRINT EXIT DATA HERE
     first_fit.print_allocated();
     first_fit.print_free();
+
+    //Print Time Taken (IN MICROSECONDS)
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << std::endl;
+    std::cout << "\033[1;4;33m" << "Time Taken:" << "\033[0m "
+              << duration.count() << " μs" << std::endl;
 
     return EXIT_SUCCESS;
 }

@@ -3,7 +3,8 @@
 ### Evan Kim - s3943715 Operating Systems Principles Assignment 3
 
 **To run the program:**
-- First move terminal to project folder.
-- In the terminal run: ```make``` to compile both programs
-- To individually compile programs, run: ```make firstfit``` or ```make bestfit``` .
-- Then to run the programs: ```./firstfit <Data File Name>``` or ```./bestfit <Data File Name>``` .
+1.  First move terminal to project folder.
+2.  In the terminal run: ```make``` to compile both programs
+3. To individually compile programs, run: ```make firstfit``` or ```make bestfit``` . 
+    - **NOTE:** If running these after program has been compiled previously, please run ```make clean```.
+4. Then to run the programs: ```./firstfit <Data File Name>``` or ```./bestfit <Data File Name>``` .

@@ -16,8 +16,15 @@ class BestFit{
         bool dealloc(void * chunk);
         size_t get_allocation_size(int job_size);
         void* get_last_allocated();
+
+        //get totals for data comparison
+        int get_total_allocated();
+        int get_total_used();
+        int get_total_free();
+
+        //print the lists in a table
         void print_allocated();
-        void print_free();
+        void print_free();        
 
     private:
         std::list<AllocationNode> occupied_chunks;
